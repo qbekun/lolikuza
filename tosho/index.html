@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="../public/1.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lolikuza.ovh - Tosho</title>
+  <meta name="description" content="Katalog lolikuza.ovh - gry, mody i aplikacje." />
+  <link rel="stylesheet" href="../style.css?v=2" />
+  <link rel="stylesheet" href="games.css?v=2" />
+  <link rel="stylesheet" href="cursor.css?v=2" />
+</head>
+<body class="games-page">
+  <div class="page-bg" id="pageBg"></div>
+
+  <div class="site">
+
+    <div class="banner">
+      <div class="banner-inner">
+        <a class="banner-logo" href="/">lolikuza</a>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <span class="status-text">Event: <b id="bgLabel">&nbsp;</b></span>
+      <span class="status-sep"></span>
+      <span class="status-text">Pozycji: <b id="statCount">0</b></span>
+      <span class="status-grow"></span>
+    </div>
+
+    <div class="layout">
+
+      <aside class="col col--left">
+        <div class="panel">
+          <div class="panel-hd">K a t e g o r i e</div>
+          <div class="panel-bd">
+            <div class="filter-group">
+              <button type="button" class="btn btn--block is-on" data-category="all">Wszystkie</button>
+              <button type="button" class="btn btn--block" data-category="gry">Gry</button>
+              <button type="button" class="btn btn--block" data-category="mody">Mody</button>
+              <button type="button" class="btn btn--block" data-category="aplikacje">Aplikacje</button>
+            </div>
+            <div class="filter-group">
+              <span class="filter-label">Sortowanie</span>
+              <button type="button" class="btn btn--block is-on" data-sort="date">Od najnowszych</button>
+              <button type="button" class="btn btn--block" data-sort="title">Wg nazwy A-Z</button>
+              <button type="button" class="btn btn--block" data-sort="year">Wg roku</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-hd">S t a t y s t y k i</div>
+          <div class="panel-bd">
+            <table class="stat-table">
+              <tr><td>Łącznie</td><td align="right" id="statTotal">0</td></tr>
+              <tr><td>Gry</td><td align="right" id="statGames">0</td></tr>
+              <tr><td>Mody</td><td align="right" id="statMods">0</td></tr>
+              <tr><td>Aplikacje</td><td align="right" id="statApps">0</td></tr>
+            </table>
+          </div>
+        </div>
+      </aside>
+
+      <main class="col col--main">
+
+        <div class="panel">
+          <div class="panel-hd panel-hd--muted">S z u k a j</div>
+          <div class="panel-bd panel-bd--search">
+            <input
+              type="text"
+              id="gamesSearch"
+              class="inp"
+              placeholder="np. Silent Hill"
+              aria-label="Szukaj"
+              autocomplete="off"
+            />
+            <button type="button" class="btn" id="gamesSearchBtn">Szukaj</button>
+            <button type="button" class="btn" id="gamesSearchClear">Wyczyść</button>
+          </div>
+        </div>
+
+        <div class="panel" id="thumbsPanel">
+          <div class="panel-hd">N a j n o w s z e</div>
+          <div class="panel-bd panel-bd--thumbs">
+            <div class="thumbs" id="gamesThumbs"></div>
+            <p class="tiny muted center">Kliknij okładkę, aby przejść do opisu.</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-hd">W s y s t k i e</div>
+          <div class="panel-bd panel-bd--flush">
+            <table class="game-table">
+              <thead>
+                <tr>
+                  <th class="col-idx">#</th>
+                  <th class="col-title">Tytuł</th>
+                  <th class="col-sm">Kategoria</th>
+                  <th class="col-sm">Rok</th>
+                  <th class="col-sm">Platforma</th>
+                </tr>
+              </thead>
+              <tbody id="gamesGrid"></tbody>
+            </table>
+            <p class="empty" id="gamesEmpty" hidden>Brak pozycji pasujących do zapytania.</p>
+          </div>
+        </div>
+      </main>
+
+      <aside class="col col--right">
+        <div class="panel">
+          <div class="panel-hd panel-hd--muted">I n d e k s</div>
+          <div class="panel-bd">
+            <nav class="idx" id="gamesIndex" aria-label="Indeks wedlug litery"></nav>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-hd panel-hd--muted">N a j n o w s z e</div>
+          <div class="panel-bd">
+            <ul class="mini-list" id="recentList"></ul>
+          </div>
+        </div>
+
+        <div class="panel" id="playerPanel">
+          <div class="panel-hd panel-hd--muted">M P 3 &nbsp; P l a y e r</div>
+          <div class="panel-bd">
+            <div class="player" id="player">
+              <div class="player-title" id="playerTitle">&nbsp;</div>
+              <div class="player-sub" id="playerArtist">&nbsp;</div>
+              <div class="player-bar">
+                <span class="player-time" id="playerNow">0:00</span>
+                <input type="range" min="0" max="1000" value="0" step="1" class="player-seek" id="playerSeek" aria-label="Pozycja odtwarzania" />
+                <span class="player-time" id="playerTotal">0:00</span>
+              </div>
+              <div class="player-controls">
+                <button type="button" class="pbtn" id="playerPrev" aria-label="Poprzedni utwor" title="Poprzedni">
+                  <svg viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4"></polygon><rect x="5" y="4" width="2" height="16"></rect></svg>
+                </button>
+                <button type="button" class="pbtn pbtn--main" id="playerPlay" aria-label="Odtwórz" title="Odtwórz / pauza">
+                  <svg viewBox="0 0 24 24" id="playerIcon"><polygon points="6 4 20 12 6 20"></polygon></svg>
+                </button>
+                <button type="button" class="pbtn" id="playerNext" aria-label="Następny utwór" title="Następny">
+                  <svg viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20"></polygon><rect x="17" y="4" width="2" height="16"></rect></svg>
+                </button>
+                <span class="player-vol">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"></polygon><path d="M15.5 8.5a5 5 0 0 1 0 7"></path></svg>
+                  <input type="range" min="0" max="1" step="0.01" value="0.6" class="player-vol-slider" id="playerVol" aria-label="Głośność" />
+                </span>
+              </div>
+              <ul class="player-list" id="playerList"></ul>
+            </div>
+            <audio id="playerAudio" preload="metadata"></audio>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="footer">
+      <span class="footer-sep">*</span>
+      <span>lolikuza.ovh</span>
+      <span class="footer-sep">*</span>
+    </div>
+  </div>
+
+  <script src="player.js?v=2"></script>
+  <script src="games.js?v=2"></script>
+</body>
+</html>
