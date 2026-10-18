@@ -33,7 +33,7 @@ function updateMeta(item) {
 
 const SPECIAL_DATES = [
   { id: 'december', name: 'Święta Bożego Narodzenia', wallpaper: 'wallpaper/wp11400450.jpg', test: (date) => date.getMonth() === 11 },
-  { id: 'halloween', name: 'Halloween', wallpaper: 'wallpaper/bg_hw_7.jpg', test: () => true }
+  { id: 'halloween', name: 'Halloween', wallpaper: 'wallpaper/bg_hw_7.jpg', test: (date) => date.getMonth() === 9 }
 ];
 
 const CATEGORIES = [
