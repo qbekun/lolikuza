@@ -1,4 +1,35 @@
 const SITE_TITLE = 'lolikuza.ovh - Tosho';
+const SITE_URL = 'https://lolikuza.ovh/tosho/';
+const SITE_DESCRIPTION = 'Tosho - katalog polskich spolszczeń, modów, aplikacji i narzędzi na PC. Tłumaczenia, fixy i fanowskie projekty w jednym miejscu na lolikuza.ovh.';
+
+function setMeta(selector, value) {
+  const tag = document.head.querySelector(selector);
+
+  if (!tag) return;
+
+  if (tag.tagName === 'TITLE') {
+    document.title = value;
+    return;
+  }
+
+  tag.setAttribute('content', value);
+}
+
+function updateMeta(item) {
+  if (!item) return;
+
+  const summary = (item.description || item.genres || []).toString().trim() || SITE_DESCRIPTION;
+  const url = `${SITE_URL}uwu.html?id=${encodeURIComponent(item.slug)}`;
+  const title = `${item.title} | Tosho`;
+
+  setMeta('title', title);
+  setMeta('meta[name="description"]', `${item.title} — ${summary} Tosho, katalog polskich spolszczeń, modów i narzędzi na lolikuza.ovh.`);
+  setMeta('meta[property="og:title"]', title);
+  setMeta('meta[property="og:description"]', summary);
+  setMeta('meta[property="og:url"]', url);
+  setMeta('meta[name="twitter:title"]', title);
+  setMeta('meta[name="twitter:description"]', summary);
+}
 
 const SPECIAL_DATES = [
   { id: 'december', name: 'Święta Bożego Narodzenia', wallpaper: 'wallpaper/wp11400450.jpg', test: (date) => date.getMonth() === 11 },
@@ -215,7 +246,7 @@ function showMissing() {
 }
 
 function renderItem(item) {
-  document.title = `${item.title} - ${SITE_TITLE}`;
+  updateMeta(item);
 
   detailHead.textContent = item.category === 'gry'
     ? 'G r a'
