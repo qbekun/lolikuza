@@ -232,7 +232,7 @@ function renderIndex() {
     const state = has ? '' : ' class="is-off"';
     const disabled = has ? '' : ' aria-disabled="true"';
 
-    return `<a href="#gry" data-range="${range.id}"${state}${disabled}>[ ${escapeHtml(range.label)} ]</a>`;
+    return `<a href="#" data-range="${range.id}"${state}${disabled}>[ ${escapeHtml(range.label)} ]</a>`;
   }).join('');
 }
 
@@ -299,7 +299,6 @@ async function start() {
 
   renderIndex();
   render();
-  startPlayer();
 }
 
 start();

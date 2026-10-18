@@ -159,7 +159,7 @@ function renderSpecs(item) {
     ['Wersja', item.version || '-'],
     ['Rok', item.year || '-'],
     ['Platforma', (item.platform || []).join(', ') || '-'],
-    [' Gatunek', (item.genres || []).join(', ') || '-'],
+    ['Gatunek', (item.genres || []).join(', ') || '-'],
     ['Data dodania', item.date || '-']
   ];
 
