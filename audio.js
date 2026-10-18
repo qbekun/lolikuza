@@ -9,7 +9,7 @@ const volumeWave2 = document.getElementById('volumeWave2');
 let isMuted = true;
 
 function updateIcon() {
-  if (!volumeMuteX || !volumeWave1 || !volumeWave2) return;
+  if (!volumeMuteX || !volumeWave1 || !volumeWave2 || !video) return;
 
   if (isMuted) {
     volumeMuteX.style.display = '';
