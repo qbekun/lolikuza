@@ -1,6 +1,6 @@
 const SITE_TITLE = 'lolikuza.ovh - Tosho';
 const SITE_URL = 'https://lolikuza.ovh/tosho/';
-const SITE_DESCRIPTION = 'Tosho - katalog polskich spolszczeń, modów, aplikacji i narzędzi na PC. Tłumaczenia, fixy i fanowskie projekty w jednym miejscu na lolikuza.ovh.';
+const SITE_DESCRIPTION = 'Tosho - katalog polskich spolszczeń, modów, aplikacji i narzędzi. Tłumaczenia, fixy i fanowskie projekty w jednym miejscu na lolikuza.ovh';
 
 function setMeta(selector, value) {
   const tag = document.head.querySelector(selector);
