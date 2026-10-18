@@ -19,16 +19,16 @@ function updateMeta(item) {
   if (!item) return;
 
   const summary = (item.description || item.genres || []).toString().trim() || SITE_DESCRIPTION;
-  const url = `${SITE_URL}uwu.html?id=${encodeURIComponent(item.slug)}`;
-  const title = `${item.title} | Tosho`;
+  const url = SITE_URL + 'uwu.html?id=' + encodeURIComponent(item.slug);
+  const title = item.title + ' | Tosho';
 
   setMeta('title', title);
-  setMeta('meta[name="description"]', `${item.title} — ${summary} Tosho, katalog polskich spolszczeń, modów i narzędzi na lolikuza.ovh.`);
-  setMeta('meta[property="og:title"]', title);
-  setMeta('meta[property="og:description"]', summary);
-  setMeta('meta[property="og:url"]', url);
-  setMeta('meta[name="twitter:title"]', title);
-  setMeta('meta[name="twitter:description"]', summary);
+  setMeta('meta[name=\'description\']', item.title + ' — ' + summary + ' Tosho, katalog polskich spolszczeń, modów i narzędzi na lolikuza.ovh.');
+  setMeta('meta[property=\'og:title\']', title);
+  setMeta('meta[property=\'og:description\']', summary);
+  setMeta('meta[property=\'og:url\']', url);
+  setMeta('meta[name=\'twitter:title\']', title);
+  setMeta('meta[name=\'twitter:description\']', summary);
 }
 
 const SPECIAL_DATES = [
@@ -71,12 +71,7 @@ function hueFrom(text) {
 
 function coverGradient(title) {
   const hue = hueFrom(title);
-  return (
-    'linear-gradient(150deg,' +
-    `hsl(${hue} 45% 22%),` +
-    `hsl(${(hue + 40) % 360} 40% 10%) 60%,` +
-    '#000)'
-  );
+  return 'linear-gradient(150deg,hsl(' + hue + ' 45% 22%),hsl(' + ((hue + 40) % 360) + ' 40% 10%) 60%,#000)';
 }
 
 function initialsOf(title) {
@@ -91,17 +86,13 @@ function initialsOf(title) {
 }
 
 function escapeHtml(text) {
-  return String(text).replace(/[&<>"']/g, (char) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  }[char]));
+  const element = document.createElement('div');
+  element.textContent = String(text);
+  return element.innerHTML;
 }
 
 function categoryLabel(id) {
-  const found = CATEGORIES.find((c) => c.id === id);
+  const found = CATEGORIES.find((entry) => entry.id === id);
   return found ? found.label : id;
 }
 
@@ -119,7 +110,7 @@ function updateWallpaper() {
   if (special.wallpaper === shownWallpaper) return;
 
   shownWallpaper = special.wallpaper;
-  bgLayer.style.setProperty('--bg-image', `url("${special.wallpaper}")`);
+  bgLayer.style.setProperty('--bg-image', 'url("' + special.wallpaper + '")');
   bgLabel.textContent = special.name;
 }
 
@@ -131,15 +122,61 @@ function currentSlug() {
   return new URLSearchParams(window.location.search).get('id') || '';
 }
 
+function createInfoBox(title, text, color, background, border) {
+  const box = document.createElement('div');
+  const heading = document.createElement('b');
+  const message = document.createElement('span');
+
+  box.style.cssText = 'display:block;margin-bottom:1rem;padding:.9rem 1rem;border:1px solid ' + border + ';background:' + background + ';border-radius:10px;color:#e5e7eb;font-size:.9rem;line-height:1.55;';
+  heading.style.cssText = 'display:block;margin-bottom:.25rem;color:' + color + ';';
+  heading.textContent = title;
+  message.textContent = text;
+
+  box.appendChild(heading);
+  box.appendChild(message);
+
+  return box;
+}
+
+function renderModInfo(item) {
+  const text = (item.modInfo || '').trim();
+
+  if (!text || !descPanel || !descPanel.parentNode) return;
+
+  descPanel.parentNode.insertBefore(
+    createInfoBox('Wgrany mod', text, '#4ade80', 'rgba(74, 222, 128, 0.08)', 'rgba(74, 222, 128, 0.45)'),
+    descPanel
+  );
+}
+
+function renderInstallInfo(item) {
+  const text = (item.installInfo || '').trim();
+
+  if (!text || !descPanel || !descPanel.parentNode) return;
+
+  descPanel.parentNode.insertBefore(
+    createInfoBox('Instalacja', text, '#60a5fa', 'rgba(96, 165, 250, 0.08)', 'rgba(96, 165, 250, 0.45)'),
+    descPanel
+  );
+}
+
 function renderCover(item) {
   if (item.cover) {
-    detailCover.innerHTML = `<img src="${escapeHtml(item.cover)}" alt="Okładka: ${escapeHtml(item.title)}" />`;
+    const image = document.createElement('img');
+    image.src = item.cover;
+    image.alt = 'Okładka: ' + item.title;
+    detailCover.innerHTML = '';
+    detailCover.appendChild(image);
     return;
   }
 
-  detailCover.innerHTML =
-    `<span class="detail-cover-empty" style="background:${coverGradient(item.title)}">` +
-    `${escapeHtml(initialsOf(item.title))}</span>`;
+  const placeholder = document.createElement('span');
+  placeholder.className = 'detail-cover-empty';
+  placeholder.style.background = coverGradient(item.title);
+  placeholder.textContent = initialsOf(item.title);
+
+  detailCover.innerHTML = '';
+  detailCover.appendChild(placeholder);
 }
 
 function renderBadges(item) {
@@ -148,9 +185,14 @@ function renderBadges(item) {
     { text: item.version || '-', className: 'badge-pl' }
   ];
 
-  detailBadges.innerHTML = badges
-    .map((badge) => `<span class="badge ${badge.className}">${escapeHtml(badge.text)}</span>`)
-    .join('');
+  detailBadges.innerHTML = '';
+
+  badges.forEach((badge) => {
+    const element = document.createElement('span');
+    element.className = 'badge ' + badge.className;
+    element.textContent = badge.text;
+    detailBadges.appendChild(element);
+  });
 }
 
 function renderSpecs(item) {
@@ -163,9 +205,21 @@ function renderSpecs(item) {
     ['Data dodania', item.date || '-']
   ];
 
-  specTable.innerHTML = rows
-    .map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td align="right">${escapeHtml(value)}</td></tr>`)
-    .join('');
+  specTable.innerHTML = '';
+
+  rows.forEach(([label, value]) => {
+    const row = document.createElement('tr');
+    const labelCell = document.createElement('td');
+    const valueCell = document.createElement('td');
+
+    labelCell.textContent = label;
+    valueCell.textContent = value;
+    valueCell.setAttribute('align', 'right');
+
+    row.appendChild(labelCell);
+    row.appendChild(valueCell);
+    specTable.appendChild(row);
+  });
 }
 
 function renderDescription(item) {
@@ -192,45 +246,69 @@ function renderDescription2(item) {
 }
 
 function renderLinks(item) {
-  const links = [];
+  detailLinks.innerHTML = '';
 
   if (item.download) {
-    links.push(
-      `<a class="btn btn--wide btn--download" href="${escapeHtml(item.download)}" target="_blank" rel="noopener noreferrer">Pobierz</a>`
-    );
+    const download = document.createElement('a');
+    download.className = 'btn btn--wide btn--download';
+    download.href = item.download;
+    download.target = '_blank';
+    download.rel = 'noopener noreferrer';
+    download.textContent = 'Pobierz';
+    detailLinks.appendChild(download);
   }
 
   if (item.link) {
-    links.push(
-      `<a class="btn btn--wide" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Strona oficjalna</a>`
-    );
+    const official = document.createElement('a');
+    official.className = 'btn btn--wide';
+    official.href = item.link;
+    official.target = '_blank';
+    official.rel = 'noopener noreferrer';
+    official.textContent = 'Strona oficjalna';
+    detailLinks.appendChild(official);
   }
 
-  if (!links.length) {
-    links.push('<span class="tiny muted">Brak linków.</span>');
+  if (!item.download && !item.link) {
+    const empty = document.createElement('span');
+    empty.className = 'tiny muted';
+    empty.textContent = 'Brak linków.';
+    detailLinks.appendChild(empty);
   }
-
-  detailLinks.innerHTML = links.join(' ');
 }
 
 function renderRelated(item) {
   const others = ITEMS.filter((entry) => entry.slug !== item.slug).slice(0, 5);
 
+  relatedList.innerHTML = '';
+
   if (!others.length) {
-    relatedList.innerHTML = '<li class="tiny muted">Brak innych pozycji.</li>';
+    const empty = document.createElement('li');
+    empty.className = 'tiny muted';
+    empty.textContent = 'Brak innych pozycji.';
+    relatedList.appendChild(empty);
     return;
   }
 
-  relatedList.innerHTML = others
-    .map((entry) => {
-      const url = `uwu.html?id=${encodeURIComponent(entry.slug)}`;
-      return `<li><b><a href="${url}">${escapeHtml(entry.title)}</a></b> <span class="mini-date">${escapeHtml(entry.date)}</span></li>`;
-    })
-    .join('');
+  others.forEach((entry) => {
+    const listItem = document.createElement('li');
+    const title = document.createElement('b');
+    const link = document.createElement('a');
+    const date = document.createElement('span');
+
+    link.href = 'uwu.html?id=' + encodeURIComponent(entry.slug);
+    link.textContent = entry.title;
+    date.className = 'mini-date';
+    date.textContent = ' ' + entry.date;
+
+    title.appendChild(link);
+    listItem.appendChild(title);
+    listItem.appendChild(date);
+    relatedList.appendChild(listItem);
+  });
 }
 
 function showMissing() {
-  document.title = `Nie znaleziono - ${SITE_TITLE}`;
+  document.title = 'Nie znaleziono - ' + SITE_TITLE;
   detailHead.textContent = 'N i e   z n a l e z i o n o';
   detailTitle.textContent = 'Nie znaleziono pozycji';
   detailBadges.innerHTML = '';
@@ -241,7 +319,14 @@ function showMissing() {
   detailDesc2.textContent = '';
   detailCover.innerHTML = '';
   specTable.innerHTML = '';
-  detailLinks.innerHTML = '<a class="btn" href="index.html">&lt; Wróć do listy</a>';
+  detailLinks.innerHTML = '';
+
+  const backLink = document.createElement('a');
+  backLink.className = 'btn';
+  backLink.href = 'index.html';
+  backLink.textContent = '< Wróć do listy';
+  detailLinks.appendChild(backLink);
+
   relatedList.innerHTML = '';
 }
 
@@ -259,6 +344,8 @@ function renderItem(item) {
   renderBadges(item);
   detailGenres.textContent = (item.genres || []).join(' / ');
   renderSpecs(item);
+  renderModInfo(item);
+  renderInstallInfo(item);
   renderDescription(item);
   renderDescription2(item);
   renderLinks(item);
