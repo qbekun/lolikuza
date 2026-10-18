@@ -61,6 +61,66 @@
       "link": "https://www.ultraiso.pl/",
       "download": "https://cdn.discordapp.com/attachments/1553512897068531835/1561052523819835424/UltraISO_Premium_Edition_9.7.6.3860.zip?ex=6ad4f2f4&is=6ad3a174&hm=cfaeb69eefde3ad192c1556f3e284e99039de6ce53f23b24ad5c38e6832b9eb5&",
       "hot": false
+    },
+    {
+      "slug": "nekopara-vol-0",
+      "title": "Nekopara Vol. 0 - Spolszczenie",
+      "category": "mody",
+      "version": "PL",
+      "year": "2016",
+      "platform": ["PC"],
+      "genres": ["Spolszczenie", "Visual Novel"],
+      "date": "2026-10-18",
+      "description": "Polskie spolszczenie gry Nekopara Vol. 0.",
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/385800/library_600x900.jpg",
+      "link": "https://store.steampowered.com/app/385800/NEKOPARA_Vol_0/",
+      "download": "https://drive.google.com/file/d/1sM7Z4ggUSa02Eudzd6OE3l4lCc5VAryn/view?usp=sharing",
+      "hot": false
+    },
+    {
+      "slug": "nekopara-vol-1",
+      "title": "Nekopara Vol. 1 - Spolszczenie",
+      "category": "mody",
+      "version": "PL",
+      "year": "2016",
+      "platform": ["PC"],
+      "genres": ["Spolszczenie", "Visual Novel"],
+      "date": "2026-10-18",
+      "description": "Polskie spolszczenie gry Nekopara Vol. 1.",
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/333600/library_600x900.jpg",
+      "link": "https://store.steampowered.com/app/333600/NEKOPARA_Vol_1/",
+      "download": "https://drive.google.com/file/d/1vNnaPvKFP7_g4v4ZDm2uS-9FDu8-z_VR/view?usp=drive_link",
+      "hot": false
+    },
+    {
+      "slug": "nekopara-vol-2",
+      "title": "Nekopara Vol. 2 - Spolszczenie",
+      "category": "mody",
+      "version": "PL",
+      "year": "2017",
+      "platform": ["PC"],
+      "genres": ["Spolszczenie", "Visual Novel"],
+      "date": "2026-10-18",
+      "description": "Polskie spolszczenie gry Nekopara Vol. 2.",
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/420110/library_600x900.jpg",
+      "link": "https://store.steampowered.com/app/420110/NEKOPARA_Vol_2/",
+      "download": "https://drive.google.com/file/d/1CjmOOkEvlSuOWCLaZ9wXqIPY6rFCh7AP/view?usp=drive_link",
+      "hot": false
+    },
+    {
+      "slug": "nekopara-vol-3",
+      "title": "Nekopara Vol. 3 - Spolszczenie",
+      "category": "mody",
+      "version": "PL",
+      "year": "2019",
+      "platform": ["PC"],
+      "genres": ["Spolszczenie", "Visual Novel"],
+      "date": "2026-10-18",
+      "description": "Polskie spolszczenie gry Nekopara Vol. 3.",
+      "cover": "https://cdn.akamai.steamstatic.com/steam/apps/602520/library_600x900.jpg",
+      "link": "https://store.steampowered.com/app/602520/NEKOPARA_Vol_3/",
+      "download": "https://drive.google.com/file/d/1npInqOCyU82DOaA847oSRNXk_ZPHKdO5/view?usp=drive_link",
+      "hot": false
     }
   ]
 }
