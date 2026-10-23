@@ -12,6 +12,17 @@ ATOM = 'http://www.w3.org/2005/Atom'
 ET.register_namespace('atom', ATOM)
 
 
+def image_type(url):
+    lower = str(url).lower().split('?')[0]
+    if lower.endswith('.png'):
+        return 'image/png'
+    if lower.endswith('.webp'):
+        return 'image/webp'
+    if lower.endswith('.gif'):
+        return 'image/gif'
+    return 'image/jpeg'
+
+
 def build_feed(items):
     root = ET.Element('rss', {'version': '2.0'})
     channel = ET.SubElement(root, 'channel')
@@ -51,6 +62,13 @@ def build_feed(items):
         )
         category = item.get('category', 'Inne')
         ET.SubElement(node, 'category').text = categories.get(category, category)
+        cover = str(item.get('cover', '')).strip()
+        if cover:
+            ET.SubElement(node, 'enclosure', {
+                'url': cover,
+                'type': image_type(cover),
+                'length': '0',
+            })
     ET.indent(root, space='  ')
     return ET.tostring(root, encoding='utf-8', xml_declaration=True)
 
