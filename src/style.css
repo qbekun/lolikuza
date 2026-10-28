@@ -1,0 +1,7 @@
+/* Compatibility for the React root; the original site styles remain authoritative. */
+#root { width: 100%; }
+.games-page .detail-desc { white-space: pre-wrap; }
+.games-page .statusbar { flex-wrap: wrap; }
+.games-page a.btn { color: var(--ink); text-decoration: none; }
+.games-page :focus-visible { outline: 1px dotted currentColor; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { html { animation: none !important; } }
